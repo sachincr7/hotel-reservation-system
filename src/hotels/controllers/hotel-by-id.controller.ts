@@ -49,9 +49,7 @@ export class HotelByIdController {
     const hotel = await this.hotelService.remove(id);
     return {
       message: 'Hotel deleted successfully',
-      data: {
-        name: hotel.name,
-      },
+      data: hotel,
     };
   }
 }

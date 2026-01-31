@@ -22,34 +22,56 @@ export class ReservationsController {
   constructor(private readonly reservationsService: ReservationsService) {}
 
   @Get()
-  findAll(@Request() req: { user: User }) {
-    return this.reservationsService.findAllForGuest(req.user.id);
+  async findAll(@Request() req: { user: User }) {
+    const reservations = await this.reservationsService.findAllForGuest(req.user.id);
+    return {
+      message: 'Reservations fetched successfully',
+      data: reservations,
+    };
   }
 
   @Get(':id')
-  findOne(
+  async findOne(
     @Request() req: { user: User },
     @Param('id', ParseIntPipe) id: number,
   ) {
-    return this.reservationsService.findOneForGuest(req.user.id, id);
+    const reservation = await this.reservationsService.findOneForGuest(
+      req.user.id,
+      id,
+    );
+    return {
+      message: 'Reservation found successfully',
+      data: reservation,
+    };
   }
 
   @Post()
-  create(
+  async create(
     @Request() req: { user: User },
     @Body() createReservationDto: CreateReservationDto,
   ) {
-    return this.reservationsService.createForGuest(
+    const reservation = await this.reservationsService.createForGuest(
       req.user.id,
       createReservationDto,
     );
+    return {
+      message: 'Reservation created successfully',
+      data: reservation,
+    };
   }
 
   @Delete(':id')
-  cancel(
+  async cancel(
     @Request() req: { user: User },
     @Param('id', ParseIntPipe) id: number,
   ) {
-    return this.reservationsService.cancelForGuest(req.user.id, id);
+    const reservation = await this.reservationsService.cancelForGuest(
+      req.user.id,
+      id,
+    );
+    return {
+      message: 'Reservation cancelled successfully',
+      data: reservation,
+    };
   }
 }
