@@ -29,7 +29,7 @@ export class User {
   email: string;
 
   @IsString()
-  @Column({ default: 'guest' })
+  @Column({ type: 'varchar', default: 'guest' })
   role: UserRole;
 
   @Column()
