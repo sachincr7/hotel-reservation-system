@@ -19,7 +19,7 @@ export class ReservationRepository {
 
   findOneByIdAndGuestId(id: number, guestId: number) {
     return this.reservationRepository.findOne({
-      where: { reservation_id: id, guest_id: guestId },
+      where: { id, guest_id: guestId },
     });
   }
 

@@ -19,7 +19,7 @@ export class Reservation {
   id: number;
 
   @IsNumber()
-  @Column({ type: 'int4' })
+  @Column()
   hotel_id: number;
 
   @ManyToOne(() => require('./hotel.entity').Hotel)
