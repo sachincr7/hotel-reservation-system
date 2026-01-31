@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, HttpStatus, Post, UseGuards } from '@nestjs/common';
 
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { Roles } from 'src/auth/decorators/roles.decorator';
@@ -13,7 +13,11 @@ export class CreateHotelController {
   @Roles('staff')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
-  create(@Body() createHotelDto: CreateHotelDto) {
-    return this.hotelService.create(createHotelDto);
+  async create(@Body() createHotelDto: CreateHotelDto) {
+    const hotel = await this.hotelService.create(createHotelDto);
+    return {
+      message: 'Hotel created successfully',
+      data: hotel,
+    };
   }
 }

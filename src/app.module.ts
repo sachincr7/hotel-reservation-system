@@ -11,6 +11,7 @@ import { AuthModule } from './auth/auth.module';
 import { HotelModule } from './hotels/hotel.module';
 import { RoomModule } from './rooms/room.module';
 import { ReservationsModule } from './reservations/reservations.module';
+import { RoomTypesModule } from './room-types/room-types.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { ReservationsModule } from './reservations/reservations.module';
     UserModule,
     AuthModule,
     RoomModule,
+    RoomTypesModule,
     HotelModule,
     ReservationsModule,
   ],

@@ -20,24 +20,38 @@ export class HotelByIdController {
   constructor(private readonly hotelService: HotelService) {}
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.hotelService.findOne(id);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    const hotel = await this.hotelService.findOne(id);
+    return {
+      message: 'Hotel found successfully',
+      data: hotel,
+    };
   }
 
   @Roles('staff')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Put(':id')
-  update(
+  async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateHotelDto: UpdateHotelDto,
   ) {
-    return this.hotelService.update(id, updateHotelDto);
+    const hotel = await this.hotelService.update(id, updateHotelDto);
+    return {
+      message: 'Hotel updated successfully',
+      data: hotel,
+    };
   }
 
   @Roles('staff')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
-    return this.hotelService.remove(id);
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    const hotel = await this.hotelService.remove(id);
+    return {
+      message: 'Hotel deleted successfully',
+      data: {
+        name: hotel.name,
+      },
+    };
   }
 }
