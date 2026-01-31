@@ -8,8 +8,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import { Room } from './room.entity';
-import { RoomType } from './room_type.entity';
+import type { Room } from './room.entity';
+import type { RoomType } from './room_type.entity';
 
 @Entity()
 export class Hotel {
@@ -28,10 +28,16 @@ export class Hotel {
   @Column()
   location: string;
 
-  @OneToMany(() => Room, (room) => room.hotel)
+  @OneToMany(
+    () => require('./room.entity').Room,
+    (room: Room) => room.hotel,
+  )
   rooms: Room[];
 
-  @OneToMany(() => RoomType, (roomType) => roomType.hotel)
+  @OneToMany(
+    () => require('./room_type.entity').RoomType,
+    (roomType: RoomType) => roomType.hotel,
+  )
   room_types: RoomType[];
 
   @CreateDateColumn()

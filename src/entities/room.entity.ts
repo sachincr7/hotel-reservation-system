@@ -9,8 +9,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import { Hotel } from './hotel.entity';
-import { RoomType } from './room_type.entity';
+import type { Hotel } from './hotel.entity';
+import type { RoomType } from './room_type.entity';
 
 @Entity()
 export class Room {
@@ -41,11 +41,17 @@ export class Room {
   @Column()
   hotel_id: number;
 
-  @ManyToOne(() => Hotel, (hotel) => hotel.rooms)
+  @ManyToOne(
+    () => require('./hotel.entity').Hotel,
+    (hotel: Hotel) => hotel.rooms,
+  )
   @JoinColumn({ name: 'hotel_id' })
   hotel: Hotel;
 
-  @ManyToOne(() => RoomType, (roomType) => roomType.rooms)
+  @ManyToOne(
+    () => require('./room_type.entity').RoomType,
+    (roomType: RoomType) => roomType.rooms,
+  )
   @JoinColumn({ name: 'room_type_id' })
   room_type: RoomType;
 

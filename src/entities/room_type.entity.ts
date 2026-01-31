@@ -10,9 +10,9 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import { Hotel } from './hotel.entity';
-import { Room } from './room.entity';
-import { RoomTypeInventory } from './room_type_inventory.entity';
+import type { Hotel } from './hotel.entity';
+import type { Room } from './room.entity';
+import type { RoomTypeInventory } from './room_type_inventory.entity';
 
 @Entity()
 export class RoomType {
@@ -39,14 +39,23 @@ export class RoomType {
   @Column({ type: 'int4' })
   hotel_id: number;
 
-  @ManyToOne(() => Hotel, (hotel) => hotel.room_types)
+  @ManyToOne(
+    () => require('./hotel.entity').Hotel,
+    (hotel: Hotel) => hotel.room_types,
+  )
   @JoinColumn({ name: 'hotel_id' })
   hotel: Hotel;
 
-  @OneToMany(() => Room, (room) => room.room_type)
+  @OneToMany(
+    () => require('./room.entity').Room,
+    (room: Room) => room.room_type,
+  )
   rooms: Room[];
 
-  @OneToMany(() => RoomTypeInventory, (inventory) => inventory.room_type)
+  @OneToMany(
+    () => require('./room_type_inventory.entity').RoomTypeInventory,
+    (inventory: RoomTypeInventory) => inventory.room_type,
+  )
   inventories: RoomTypeInventory[];
 
   @CreateDateColumn()

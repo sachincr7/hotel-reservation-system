@@ -9,8 +9,8 @@ import {
   Unique,
 } from 'typeorm';
 
-import { Hotel } from './hotel.entity';
-import { RoomType } from './room_type.entity';
+import type { Hotel } from './hotel.entity';
+import type { RoomType } from './room_type.entity';
 
 @Entity()
 @Unique(['hotel_id', 'room_type_id', 'date'])
@@ -21,14 +21,17 @@ export class RoomTypeInventory {
   @Column()
   hotel_id: number;
 
-  @ManyToOne(() => Hotel)
+  @ManyToOne(() => require('./hotel.entity').Hotel)
   @JoinColumn({ name: 'hotel_id' })
   hotel: Hotel;
 
   @Column({ type: 'int4' })
   room_type_id: number;
 
-  @ManyToOne(() => RoomType, (roomType) => roomType.inventories)
+  @ManyToOne(
+    () => require('./room_type.entity').RoomType,
+    (roomType: RoomType) => roomType.inventories,
+  )
   @JoinColumn({ name: 'room_type_id' })
   room_type: RoomType;
 
