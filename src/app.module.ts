@@ -10,6 +10,7 @@ import { typeOrmConfig } from './config/typeorm.config';
 import { AuthModule } from './auth/auth.module';
 import { HotelModule } from './hotels/hotel.module';
 import { RoomModule } from './rooms/room.module';
+import { ReservationsModule } from './reservations/reservations.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { RoomModule } from './rooms/room.module';
     AuthModule,
     RoomModule,
     HotelModule,
+    ReservationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

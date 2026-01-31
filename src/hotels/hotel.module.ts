@@ -11,7 +11,7 @@ import { HotelRepository } from './repositories/hotel.repository';
 import { HotelService } from './hotel.service';
 
 @Module({
-  imports: [AuthModule],
+  imports: [TypeOrmModule.forFeature([Hotel, RoomType, RoomTypeInventory]), AuthModule],
   controllers: [CreateHotelController, HotelByIdController],
   providers: [HotelService, HotelRepository],
 })
