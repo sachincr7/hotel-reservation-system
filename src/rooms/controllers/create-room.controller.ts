@@ -10,12 +10,12 @@ import {
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { HotelService } from 'src/hotels/hotel.service';
 import { CreateRoomDto } from '../dto/create-room.dto';
-import { RoomService } from '../room.service';
 
 @Controller({ path: 'hotels/:hotelId/rooms', version: '1' })
 export class CreateRoomController {
-  constructor(private readonly roomService: RoomService) {}
+  constructor(private readonly hotelService: HotelService) {}
 
   @Roles('staff')
   @UseGuards(JwtAuthGuard, RolesGuard)
@@ -24,6 +24,6 @@ export class CreateRoomController {
     @Param('hotelId', ParseIntPipe) hotelId: number,
     @Body() createRoomDto: CreateRoomDto,
   ) {
-    return this.roomService.create(hotelId, createRoomDto);
+    return this.hotelService.createRoom(hotelId, createRoomDto);
   }
 }

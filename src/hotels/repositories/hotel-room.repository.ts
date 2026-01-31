@@ -3,11 +3,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Room } from 'src/entities/room.entity';
 import { Repository } from 'typeorm';
 
-import { CreateRoomDto } from '../dto/create-room.dto';
-import { UpdateRoomDto } from '../dto/update-room.dto';
+import { CreateRoomDto } from 'src/rooms/dto/create-room.dto';
+import { UpdateRoomDto } from 'src/rooms/dto/update-room.dto';
 
 @Injectable()
-export class RoomRepository {
+export class HotelRoomRepository {
   constructor(
     @InjectRepository(Room)
     private readonly roomRepository: Repository<Room>,
@@ -18,6 +18,7 @@ export class RoomRepository {
       ...createRoomDto,
       hotel_id: hotelId,
     });
+
     return this.roomRepository.save(room);
   }
 
@@ -30,6 +31,7 @@ export class RoomRepository {
   async update(hotelId: number, roomId: number, updateRoomDto: UpdateRoomDto) {
     const room = await this.findOne(hotelId, roomId);
     if (!room) return null;
+
     Object.assign(room, updateRoomDto);
     return this.roomRepository.save(room);
   }
@@ -37,6 +39,7 @@ export class RoomRepository {
   async remove(hotelId: number, roomId: number) {
     const room = await this.findOne(hotelId, roomId);
     if (!room) return null;
+
     await this.roomRepository.remove(room);
     return room;
   }
