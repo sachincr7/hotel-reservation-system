@@ -1,8 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { UserService } from 'src/users/user.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from 'src/entities/user.entity';
+import { UserModule } from 'src/users/user.module';
 import { JwtModule } from '@nestjs/jwt';
 import jwtConfig from './config/jwt.config';
 import { LocalStrategy } from './strategies/local.strategy';
@@ -17,10 +15,10 @@ import { RolesGuard } from './guards/roles.guard';
     PassportModule,
     JwtModule.registerAsync(jwtConfig.asProvider()),
     ConfigModule.forFeature(jwtConfig),
-    TypeOrmModule.forFeature([User]),
+    UserModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, UserService, LocalStrategy, JwtStrategy, RolesGuard],
+  providers: [AuthService, LocalStrategy, JwtStrategy, RolesGuard],
   exports: [AuthService, RolesGuard],
 })
 export class AuthModule {}
