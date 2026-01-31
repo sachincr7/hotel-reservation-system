@@ -12,7 +12,7 @@ import { LocalAuthGuard } from './guards/local-auth.guard';
 import { SignupDto } from './dto/signup.dto';
 import { User } from 'src/entities/user.entity';
 
-@Controller('auth')
+@Controller({ path: 'auth', version: '1' })
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 

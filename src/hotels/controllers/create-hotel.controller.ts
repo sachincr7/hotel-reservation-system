@@ -4,7 +4,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CreateHotelDto } from '../dto/create-hotel.dto';
 import { HotelService } from '../hotel.service';
 
-@Controller('v1/hotels')
+@Controller({ path: 'hotels', version: '1' })
 export class CreateHotelController {
   constructor(private readonly hotelService: HotelService) {}
 
