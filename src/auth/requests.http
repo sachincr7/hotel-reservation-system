@@ -1,0 +1,19 @@
+### Signup
+POST http://localhost:4008/auth/signup
+content-type: application/json
+
+{
+  "email": "test1@example.com",
+  "password": "password123",
+  "first_name": "Test",
+  "last_name": "User"
+}
+
+### Login
+POST http://localhost:4008/auth/login
+content-type: application/json
+
+{
+  "email": "test1@example.com",
+  "password": "password123"
+}
