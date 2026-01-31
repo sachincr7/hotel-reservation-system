@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { Reservation } from 'src/entities/reservation.entity';
 import { RoomTypeInventory } from 'src/entities/room_type_inventory.entity';
 import { DataSource } from 'typeorm';
@@ -49,17 +53,17 @@ export class ReservationsService {
     return reservation;
   }
 
-  async createForGuest(guestId: number, createReservationDto: CreateReservationDto) {
-    const {
-      hotel_id,
-      room_type_id,
-      start_date,
-      end_date,
-      number_of_rooms,
-    } = createReservationDto;
+  async createForGuest(
+    guestId: number,
+    createReservationDto: CreateReservationDto,
+  ) {
+    const { hotel_id, room_type_id, start_date, end_date, number_of_rooms } =
+      createReservationDto;
 
     if (!Number.isFinite(number_of_rooms) || number_of_rooms <= 0) {
-      throw new BadRequestException('number_of_rooms must be a positive number');
+      throw new BadRequestException(
+        'number_of_rooms must be a positive number',
+      );
     }
 
     const dates = this.getDatesInRangeInclusive(start_date, end_date);
@@ -73,7 +77,9 @@ export class ReservationsService {
         .createQueryBuilder('inv')
         .setLock('pessimistic_write')
         .where('inv.hotel_id = :hotelId', { hotelId: hotel_id })
-        .andWhere('inv.room_type_id = :roomTypeId', { roomTypeId: room_type_id })
+        .andWhere('inv.room_type_id = :roomTypeId', {
+          roomTypeId: room_type_id,
+        })
         .andWhere('inv.date IN (:...dates)', { dates })
         .getMany();
 
@@ -88,7 +94,9 @@ export class ReservationsService {
 
       for (const date of dates) {
         const inv = byDate.get(date)!;
-        const allowed = Math.floor(overbookMultiplier * Number(inv.total_inventory));
+        const allowed = Math.floor(
+          overbookMultiplier * Number(inv.total_inventory),
+        );
         const nextReserved = Number(inv.total_reserved) + number_of_rooms;
 
         if (nextReserved > allowed) {
@@ -98,11 +106,17 @@ export class ReservationsService {
         }
       }
 
-      for (const date of dates) {
-        const inv = byDate.get(date)!;
-        inv.total_reserved = Number(inv.total_reserved) + number_of_rooms;
-        await inventoryRepo.save(inv);
-      }
+      await inventoryRepo
+        .createQueryBuilder()
+        .update(RoomTypeInventory)
+        .set({
+          total_reserved: () => '"total_reserved" + :numRooms',
+        })
+        .where('hotel_id = :hotelId', { hotelId: hotel_id })
+        .andWhere('room_type_id = :roomTypeId', { roomTypeId: room_type_id })
+        .andWhere('date IN (:...dates)', { dates })
+        .setParameters({ numRooms: number_of_rooms })
+        .execute();
 
       const reservation = reservationRepo.create({
         hotel_id,
