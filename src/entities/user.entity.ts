@@ -10,6 +10,8 @@ import { Exclude } from 'class-transformer';
 import * as bcrypt from 'bcrypt';
 import { IsString } from 'class-validator';
 
+export type UserRole = 'guest' | 'staff';
+
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
@@ -25,6 +27,10 @@ export class User {
 
   @Column({ unique: true })
   email: string;
+
+  @IsString()
+  @Column({ default: 'guest' })
+  role: UserRole;
 
   @Column()
   @Exclude()

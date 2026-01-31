@@ -10,6 +10,8 @@ import {
 } from '@nestjs/common';
 
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { UpdateHotelDto } from '../dto/update-hotel.dto';
 import { HotelService } from '../hotel.service';
 
@@ -22,7 +24,8 @@ export class HotelByIdController {
     return this.hotelService.findOne(id);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Roles('staff')
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Put(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
@@ -31,7 +34,8 @@ export class HotelByIdController {
     return this.hotelService.update(id, updateHotelDto);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Roles('staff')
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.hotelService.remove(id);
