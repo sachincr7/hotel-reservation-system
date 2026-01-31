@@ -25,7 +25,7 @@ export class RoomTypeInventory {
   @JoinColumn({ name: 'hotel_id' })
   hotel: Hotel;
 
-  @Column({ type: 'int4' })
+  @Column()
   room_type_id: number;
 
   @ManyToOne(
@@ -35,12 +35,21 @@ export class RoomTypeInventory {
   @JoinColumn({ name: 'room_type_id' })
   room_type: RoomType;
 
+  /**
+   * Date for which the inventory is configured
+   */
   @Column({ type: 'date' })
   date: string;
 
+  /**
+   * Total inventory available for the room type on the given date
+   */
   @Column({ type: 'int8' })
   total_inventory: number;
 
+  /**
+   * Total number of rooms reserved for the room type on the given date
+   */
   @Column({ type: 'int8', default: 0 })
   total_reserved: number;
 

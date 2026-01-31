@@ -9,20 +9,20 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import { Hotel } from './hotel.entity';
-import { RoomType } from './room_type.entity';
-import { User } from './user.entity';
+import type { Hotel } from './hotel.entity';
+import type { RoomType } from './room_type.entity';
+import type { User } from './user.entity';
 
 @Entity()
 export class Reservation {
-  @PrimaryGeneratedColumn({ name: 'reservation_id' })
-  reservation_id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @IsNumber()
   @Column({ type: 'int4' })
   hotel_id: number;
 
-  @ManyToOne(() => Hotel)
+  @ManyToOne(() => require('./hotel.entity').Hotel)
   @JoinColumn({ name: 'hotel_id' })
   hotel: Hotel;
 
@@ -30,7 +30,7 @@ export class Reservation {
   @Column({ type: 'int4' })
   room_type_id: number;
 
-  @ManyToOne(() => RoomType)
+  @ManyToOne(() => require('./room_type.entity').RoomType)
   @JoinColumn({ name: 'room_type_id' })
   room_type: RoomType;
 
@@ -40,6 +40,10 @@ export class Reservation {
   @Column({ type: 'date' })
   end_date: string;
 
+  @IsNumber()
+  @Column({ type: 'int4' })
+  number_of_rooms: number;
+
   @IsString()
   @Column()
   status: string;
@@ -48,7 +52,7 @@ export class Reservation {
   @Column({ type: 'int4' })
   guest_id: number;
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => require('./user.entity').User)
   @JoinColumn({ name: 'guest_id' })
   guest: User;
 

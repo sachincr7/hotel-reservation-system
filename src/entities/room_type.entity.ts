@@ -16,8 +16,8 @@ import type { RoomTypeInventory } from './room_type_inventory.entity';
 
 @Entity()
 export class RoomType {
-  @PrimaryGeneratedColumn({ name: 'room_type_id' })
-  room_type_id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @IsString()
   @Column()

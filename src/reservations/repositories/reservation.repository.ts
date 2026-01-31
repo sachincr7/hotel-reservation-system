@@ -3,8 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Reservation } from 'src/entities/reservation.entity';
 import { Repository } from 'typeorm';
 
-import { CreateReservationDto } from '../dto/create-reservation.dto';
-
 @Injectable()
 export class ReservationRepository {
   constructor(
@@ -23,16 +21,6 @@ export class ReservationRepository {
     return this.reservationRepository.findOne({
       where: { reservation_id: id, guest_id: guestId },
     });
-  }
-
-  createForGuest(guestId: number, createReservationDto: CreateReservationDto) {
-    const reservation = this.reservationRepository.create({
-      ...createReservationDto,
-      guest_id: guestId,
-      status: 'confirmed',
-    });
-
-    return this.reservationRepository.save(reservation);
   }
 
   save(reservation: Reservation) {

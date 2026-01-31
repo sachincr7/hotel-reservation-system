@@ -7,6 +7,9 @@ export class CreateReservationDto {
   @IsNumber()
   room_type_id: number;
 
+  @IsNumber()
+  number_of_rooms: number;
+
   @IsDateString()
   start_date: string;
 

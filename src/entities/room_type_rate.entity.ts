@@ -13,7 +13,7 @@ import { Hotel } from './hotel.entity';
 @Entity()
 export class RoomTypeRate {
   @PrimaryColumn({ type: 'int4' })
-  hotel_id: number;
+  id: number;
 
   @ManyToOne(() => Hotel)
   @JoinColumn({ name: 'hotel_id' })
