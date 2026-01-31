@@ -1,13 +1,11 @@
 import { IsEmail, IsOptional, IsString } from 'class-validator';
 
 export class SignupDto {
-  @IsOptional()
   @IsString()
-  first_name?: string;
+  first_name: string;
 
-  @IsOptional()
   @IsString()
-  last_name?: string;
+  last_name: string;
 
   @IsString()
   @IsEmail()
