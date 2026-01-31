@@ -6,6 +6,13 @@ import { AuthJwtPayload } from '../types/auth-jwt.payload';
 import { Inject, Injectable } from '@nestjs/common';
 import { AuthService } from '../auth.service';
 
+/**
+ * JWT strategy for Passport authentication.
+ *
+ * Validates JWT tokens using the secret from the configuration.
+ * If valid, attaches the authenticated user to `req.user`;
+ * otherwise throws an Unauthorized error.
+ */
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
