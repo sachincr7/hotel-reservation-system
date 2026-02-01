@@ -45,6 +45,36 @@ export class ReservationsController {
     };
   }
 
+  @Post('orders')
+  async createOrder(
+    @Request() req: { user: User },
+    @Body() createReservationDto: CreateReservationDto,
+  ) {
+    const order = await this.reservationsService.createOrderForGuest(
+      req.user.id,
+      createReservationDto,
+    );
+    return {
+      message: 'Reservation order created successfully',
+      data: order,
+    };
+  }
+
+  @Post('orders/:reservationId/confirm')
+  async confirm(
+    @Request() req: { user: User },
+    @Param('reservationId') reservationId: string,
+  ) {
+    const reservation = await this.reservationsService.confirmForGuest(
+      req.user.id,
+      reservationId,
+    );
+    return {
+      message: 'Reservation confirmed successfully',
+      data: reservation,
+    };
+  }
+
   @Post()
   async create(
     @Request() req: { user: User },

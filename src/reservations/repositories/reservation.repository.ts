@@ -23,6 +23,18 @@ export class ReservationRepository {
     });
   }
 
+  findOneByReservationIdAndGuestId(reservationId: number, guestId: number) {
+    return this.reservationRepository.findOne({
+      where: { id: reservationId, guest_id: guestId },
+    });
+  }
+
+  findOneByReservationId(reservationId: number) {
+    return this.reservationRepository.findOne({
+      where: { id: reservationId },
+    });
+  }
+
   save(reservation: Reservation) {
     return this.reservationRepository.save(reservation);
   }
