@@ -18,6 +18,10 @@ export class HotelRepository {
     return this.hotelRepository.save(hotel);
   }
 
+  findAll() {
+    return this.hotelRepository.find();
+  }
+
   findOne(id: number) {
     return this.hotelRepository.findOne({ where: { id } });
   }

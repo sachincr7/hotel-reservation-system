@@ -380,6 +380,41 @@
           }
         },
         {
+          "name": "POST /v1/hotels/:hotelId/room-types/:roomTypeId/inventory/seed (staff)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/v1/hotels/{{hotelId}}/room-types/{{roomTypeId}}/inventory/seed?days=30&from=2026-02-01",
+              "host": ["{{baseUrl}}"],
+              "path": [
+                "v1",
+                "hotels",
+                "{{hotelId}}",
+                "room-types",
+                "{{roomTypeId}}",
+                "inventory",
+                "seed"
+              ],
+              "query": [
+                {
+                  "key": "days",
+                  "value": "30"
+                },
+                {
+                  "key": "from",
+                  "value": "2026-02-01"
+                }
+              ]
+            }
+          }
+        },
+        {
           "name": "DELETE /v1/hotels/:hotelId/room-types/:id (staff)",
           "request": {
             "method": "DELETE",

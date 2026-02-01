@@ -7,6 +7,7 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 
@@ -79,6 +80,29 @@ export class RoomTypesController {
     return {
       message: 'Room type deleted successfully',
       data: roomType,
+    };
+  }
+
+  @Post(':roomTypeId/inventory/seed')
+  async seedInventory(
+    @Param('hotelId', ParseIntPipe) hotelId: number,
+    @Param('roomTypeId', ParseIntPipe) roomTypeId: number,
+    @Query('days') days?: string,
+    @Query('from') from?: string,
+  ) {
+    const today = new Date().toISOString().slice(0, 10);
+    const numDays = days ? parseInt(days, 10) : 30;
+
+    const result = await this.roomTypesService.seedInventory(
+      hotelId,
+      roomTypeId,
+      from ?? today,
+      numDays,
+    );
+
+    return {
+      message: 'Room type inventory seeded successfully',
+      data: result,
     };
   }
 }

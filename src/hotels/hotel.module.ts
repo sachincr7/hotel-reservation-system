@@ -7,6 +7,7 @@ import { RoomType } from 'src/entities/room_type.entity';
 import { RoomTypeInventory } from 'src/entities/room_type_inventory.entity';
 
 import { CreateHotelController } from './controllers/create-hotel.controller';
+import { GetHotelsController } from './controllers/get-hotels.controller';
 import { HotelByIdController } from './controllers/hotel-by-id.controller';
 import { HotelRoomRepository } from './repositories/hotel-room.repository';
 import { HotelRepository } from './repositories/hotel.repository';
@@ -17,7 +18,7 @@ import { HotelService } from './hotel.service';
     TypeOrmModule.forFeature([Hotel, Room, RoomType, RoomTypeInventory]),
     AuthModule,
   ],
-  controllers: [CreateHotelController, HotelByIdController],
+  controllers: [CreateHotelController, GetHotelsController, HotelByIdController],
   providers: [HotelService, HotelRepository, HotelRoomRepository],
   exports: [HotelService],
 })

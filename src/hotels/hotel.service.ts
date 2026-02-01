@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 
 import { CreateHotelDto } from './dto/create-hotel.dto';
 import { UpdateHotelDto } from './dto/update-hotel.dto';
@@ -16,6 +20,10 @@ export class HotelService {
 
   create(createHotelDto: CreateHotelDto) {
     return this.hotelRepository.create(createHotelDto);
+  }
+
+  findAll() {
+    return this.hotelRepository.findAll();
   }
 
   async findOne(id: number) {
@@ -36,7 +44,7 @@ export class HotelService {
     return hotel;
   }
 
-  createRoom(hotelId: number, createRoomDto: CreateRoomDto) {
+  async createRoom(hotelId: number, createRoomDto: CreateRoomDto) {
     return this.hotelRoomRepository.create(hotelId, createRoomDto);
   }
 
@@ -46,7 +54,11 @@ export class HotelService {
     return room;
   }
 
-  async updateRoom(hotelId: number, roomId: number, updateRoomDto: UpdateRoomDto) {
+  async updateRoom(
+    hotelId: number,
+    roomId: number,
+    updateRoomDto: UpdateRoomDto,
+  ) {
     const room = await this.hotelRoomRepository.update(
       hotelId,
       roomId,
