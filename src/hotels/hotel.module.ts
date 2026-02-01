@@ -12,14 +12,24 @@ import { HotelByIdController } from './controllers/hotel-by-id.controller';
 import { HotelRoomRepository } from './repositories/hotel-room.repository';
 import { HotelRepository } from './repositories/hotel.repository';
 import { HotelService } from './hotel.service';
+import { RoomTypesModule } from 'src/room-types/room-types.module';
 
 @Module({
   imports: [
+    RoomTypesModule,
     TypeOrmModule.forFeature([Hotel, Room, RoomType, RoomTypeInventory]),
     AuthModule,
   ],
-  controllers: [CreateHotelController, GetHotelsController, HotelByIdController],
-  providers: [HotelService, HotelRepository, HotelRoomRepository],
+  controllers: [
+    CreateHotelController,
+    GetHotelsController,
+    HotelByIdController,
+  ],
+  providers: [
+    HotelService,
+    HotelRepository,
+    HotelRoomRepository,
+  ],
   exports: [HotelService],
 })
 export class HotelModule {}

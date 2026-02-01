@@ -13,5 +13,6 @@ import { RoomTypesService } from './room-types.service';
   imports: [TypeOrmModule.forFeature([Room, RoomType, RoomTypeInventory]), AuthModule],
   controllers: [RoomTypesController],
   providers: [RoomTypesService, RoomTypeRepository],
+  exports: [RoomTypesService],
 })
 export class RoomTypesModule {}

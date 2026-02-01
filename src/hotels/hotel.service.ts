@@ -10,12 +10,14 @@ import { HotelRepository } from './repositories/hotel.repository';
 import { HotelRoomRepository } from './repositories/hotel-room.repository';
 import { CreateRoomDto } from 'src/rooms/dto/create-room.dto';
 import { UpdateRoomDto } from 'src/rooms/dto/update-room.dto';
+import { RoomTypesService } from 'src/room-types/room-types.service';
 
 @Injectable()
 export class HotelService {
   constructor(
     private readonly hotelRepository: HotelRepository,
     private readonly hotelRoomRepository: HotelRoomRepository,
+    private readonly roomTypesService: RoomTypesService,
   ) {}
 
   create(createHotelDto: CreateHotelDto) {
@@ -45,6 +47,11 @@ export class HotelService {
   }
 
   async createRoom(hotelId: number, createRoomDto: CreateRoomDto) {
+    const roomType = await this.roomTypesService.findOne(
+      hotelId,
+      createRoomDto.room_type_id,
+    );
+    if (!roomType) throw new NotFoundException('room type not found');
     return this.hotelRoomRepository.create(hotelId, createRoomDto);
   }
 
