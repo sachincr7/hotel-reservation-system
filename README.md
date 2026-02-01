@@ -96,6 +96,37 @@ Collection variables:
 - `{{token}}` (JWT)
 - `{{hotelId}}`, `{{roomId}}`, `{{roomTypeId}}`, `{{reservationId}}`
 
+## Typical workflow (end-to-end)
+
+### 1) Bootstrap users (Guest / Staff)
+
+- **Guest**
+  - Signup: `POST /v1/auth/signup`
+  - Login: `POST /v1/auth/login` -> receive JWT token
+- **Staff**
+  - Create / use a user that has role `staff`
+  - Login to get a JWT token (used for staff-only endpoints)
+
+### 2) Staff sets up the hotel catalog
+
+- Create a hotel (staff): `POST /v1/hotels`
+- Create room types for the hotel (staff): `POST /v1/hotels/:hotelId/room-types`
+- Create rooms mapped to a room type (staff): `POST /v1/hotels/:hotelId/rooms`
+
+### 3) Seed `room_type_inventory` (required for reservations)
+
+Reservation creation depends on `room_type_inventory` being present for every date in the requested range.
+
+If inventory is missing for any date, the API returns a 400 like:
+
+`Inventory not configured for dates: YYYY-MM-DD, ...`
+
+### 4) Guest makes reservations
+
+- Create reservation (guest JWT): `POST /v1/reservations`
+- View reservations: `GET /v1/reservations` and `GET /v1/reservations/:id`
+- Cancel reservation: `DELETE /v1/reservations/:id`
+
 ## Endpoints (high level)
 
 ### Auth
